@@ -23,9 +23,7 @@ function tnp_register_admin_pages() {
 add_action('admin_menu', 'tnp_register_admin_pages');
 
 function tnp_meeting_notes_page() {
-    // Code to display meeting notes form or data
     echo '<h1>Meeting Notes</h1>';
-    // You can include a form here to add new notes manually if needed
 }
 
 function tnp_meeting_history_page() {
@@ -41,14 +39,14 @@ function tnp_meeting_history_shortcode() {
     ob_start();
     echo '<h1>Meeting History</h1>';
     echo '<table class="wp-list-table widefat fixed striped">';
-    echo '<thead><tr><th>ID</th><th>Parent Name</th><th>Student Name</th><th>Inducted</th><th>Processed</th></tr></thead>';
+    echo '<thead><tr><th>Student Name</th><th>Parent Name</th><th>Inducted</th><th>Processed</th></tr></thead>';
     echo '<tbody>';
 
     foreach ($notes as $note) {
+        $student_url = admin_url('admin.php?page=tnp_student_details&student_id=' . $note->id);
         echo '<tr>';
-        echo '<td>' . esc_html($note->id) . '</td>';
+        echo '<td><a href="' . esc_url($student_url) . '">' . esc_html($note->student_name) . '</a></td>';
         echo '<td>' . esc_html($note->parent_name) . '</td>';
-        echo '<td>' . esc_html($note->student_name) . '</td>';
         echo '<td><input type="checkbox" ' . checked($note->inducted, 1, false) . ' disabled></td>';
         echo '<td><input type="checkbox" ' . checked($note->processed, 1, false) . ' disabled></td>';
         echo '</tr>';
