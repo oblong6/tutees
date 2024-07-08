@@ -118,47 +118,47 @@ function tnp_meeting_history_shortcode() {
         </tbody>
     </table>
     <script type="text/javascript">
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('.inducted-checkbox').forEach(function(checkbox) {
-                checkbox.addEventListener('change', function() {
-                    var noteId = this.dataset.id;
-                    var inducted = this.checked ? 1 : 0;
-                    updateNoteField(noteId, 'inducted', inducted);
-                });
-            });
-
-            document.querySelectorAll('.processed-checkbox').forEach(function(checkbox) {
-                checkbox.addEventListener('change', function() {
-                    var noteId = this.dataset.id;
-                    var processed = this.checked ? 1 : 0;
-                    updateNoteField(noteId, 'processed', processed);
-                });
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.inducted-checkbox').forEach(function(checkbox) {
+            checkbox.addEventListener('change', function() {
+                var noteId = this.dataset.id;
+                var inducted = this.checked ? 1 : 0;
+                updateNoteField(noteId, 'inducted', inducted);
             });
         });
 
-        function updateNoteField(noteId, field, value) {
-            var data = {
-                'action': 'update_note_field',
-                'note_id': noteId,
-                'field': field,
-                'value': value,
-            };
+        document.querySelectorAll('.processed-checkbox').forEach(function(checkbox) {
+            checkbox.addEventListener('change', function() {
+                var noteId = this.dataset.id;
+                var processed = this.checked ? 1 : 0;
+                updateNoteField(noteId, 'processed', processed);
+            });
+        });
+    });
 
-            fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
-                method: 'POST',
-                body: new URLSearchParams(data)
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    console.log('Field updated successfully.');
-                } else {
-                    console.error('Error updating field.');
-                }
-            })
-            .catch(error => console.error('Error:', error));
-        }
-    </script>
+    function updateNoteField(noteId, field, value) {
+        var data = new FormData();
+        data.append('action', 'update_note_field');
+        data.append('note_id', noteId);
+        data.append('field', field);
+        data.append('value', value);
+
+        fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
+            method: 'POST',
+            body: data
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                console.log('Field updated successfully.');
+            } else {
+                console.error('Error updating field.');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+</script>
+
     <?php
     return ob_get_clean();
 }
