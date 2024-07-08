@@ -95,26 +95,72 @@ function tnp_meeting_history_shortcode() {
     $notes = $wpdb->get_results("SELECT * FROM $table_name");
 
     ob_start();
-    echo '<h1>Meeting History</h1>';
-    echo '<table class="wp-list-table widefat fixed striped">';
-    echo '<thead><tr><th>Student Name</th><th>Parent Name</th><th>Inducted</th><th>Processed</th></thead>';
-    echo '<tbody>';
+    ?>
+    <h1>Meeting History</h1>
+    <table class="wp-list-table widefat fixed striped">
+        <thead>
+            <tr>
+                <th>Student Name</th>
+                <th>Parent Name</th>
+                <th>Inducted</th>
+                <th>Processed</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($notes as $note): ?>
+                <tr>
+                    <td><?php echo esc_html($note->student_name); ?></td>
+                    <td><?php echo esc_html($note->parent_name); ?></td>
+                    <td><input type="checkbox" class="inducted-checkbox" data-id="<?php echo esc_attr($note->id); ?>" <?php checked($note->inducted, 1); ?>></td>
+                    <td><input type="checkbox" class="processed-checkbox" data-id="<?php echo esc_attr($note->id); ?>" <?php checked($note->processed, 1); ?>></td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.inducted-checkbox').forEach(function(checkbox) {
+                checkbox.addEventListener('change', function() {
+                    var noteId = this.dataset.id;
+                    var inducted = this.checked ? 1 : 0;
+                    updateNoteField(noteId, 'inducted', inducted);
+                });
+            });
 
-    foreach ($notes as $note) {
-        $student_url = admin_url('admin.php?page=tnp_student_details&student_id=' . $note->id);
-        echo '<tr>';
-        echo '<td><a href="' . esc_url($student_url) . '">' . esc_html($note->student_name) . '</a></td>';
-        echo '<td>' . esc_html($note->parent_name) . '</td>';
-        echo '<td><input type="checkbox" ' . checked($note->inducted, 1, false) . ' disabled></td>';
-        echo '<td><input type="checkbox" ' . checked($note->processed, 1, false) . ' disabled></td>';
-        echo '</tr>';
-    }
+            document.querySelectorAll('.processed-checkbox').forEach(function(checkbox) {
+                checkbox.addEventListener('change', function() {
+                    var noteId = this.dataset.id;
+                    var processed = this.checked ? 1 : 0;
+                    updateNoteField(noteId, 'processed', processed);
+                });
+            });
+        });
 
-    echo '</tbody>';
-    echo '</table>';
+        function updateNoteField(noteId, field, value) {
+            var data = {
+                'action': 'update_note_field',
+                'note_id': noteId,
+                'field': field,
+                'value': value,
+            };
 
+            fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
+                method: 'POST',
+                body: new URLSearchParams(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log('Field updated successfully.');
+                } else {
+                    console.error('Error updating field.');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+    <?php
     return ob_get_clean();
 }
-
 add_shortcode('tnp_meeting_history', 'tnp_meeting_history_shortcode');
-?>
+
