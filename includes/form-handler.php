@@ -3,10 +3,208 @@ function tnp_introductory_form_shortcode() {
     ob_start();
     ?>
     <form id="introductory-form">
-        <!-- Your form fields here -->
+        <label for="parent-name">Parent/Guardian Name:</label>
+        <input type="text" id="parent-name" name="parent-name" placeholder="Enter the parent or guardian's name" required>
+        
+        <label for="student-name">Student Name:</label>
+        <input type="text" id="student-name" name="student-name" placeholder="Enter the student's name" required>
+        
+        <label for="preferred-name">Preferred Name:</label>
+        <input type="text" id="preferred-name" name="preferred-name" placeholder="Enter the student's preferred name">
+        
+        <label for="student-age">Student Age:</label>
+        <input type="number" id="student-age" name="student-age" placeholder="Enter the student's age" required>
+        
+        <label for="student-gender">Student Gender:</label>
+        <select id="student-gender" name="student-gender">
+            <option value="" disabled selected>Select gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+            <option value="prefer-not-to-say">Prefer not to say</option>
+        </select>
+
+        <label for="previous-tutoring">Has the Student been Tutored before?</label>
+        <select id="previous-tutoring" name="previous-tutoring">
+            <option value="" disabled selected>Select History</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+            <option value="other">Other (Add no notes)</option>
+        </select>
+
+        <label for="contact-email">Contact Email:</label>
+        <input type="email" id="contact-email" name="contact-email" placeholder="Enter the contact email" required>
+
+        <label for="contact-phone">Contact Phone:</label>
+        <input type="tel" id="contact-phone" name="contact-phone" placeholder="Enter the contact phone number" required>
+
+        <label for="address">Address:</label>
+        <textarea id="address" name="address" rows="3" placeholder="Enter the address" required></textarea>
+
+        <label for="level">Level of Education:</label>
+        <select id="level" name="level" required>
+            <option value="" disabled selected>Select level</option>
+            <option value="keystage1">Keystage 1</option>
+            <option value="keystage2">Keystage 2</option>
+            <option value="keystage3">Keystage 3</option>
+            <option value="keystage4">Keystage 4</option>
+            <option value="alevel">A Level</option>
+            <option value="undergraduate">Undergraduate</option>
+        </select>
+
+        <label for="school-name">School Name:</label>
+        <input type="text" id="school-name" name="school-name" placeholder="Enter the school name" required>
+
+        <label for="year-group">Year Group:</label>
+        <input type="text" id="year-group" name="year-group" placeholder="Enter the year group" required>
+
+        <div id="subjects-container">
+            <div class="subject-group">
+                <label for="subject">Subject:</label>
+                <input type="text" name="subject[]" placeholder="Enter the subject (e.g., Maths, Science)" required>
+                
+                <label for="teacher-name">Teacher's Name:</label>
+                <input type="text" name="teacher-name[]" placeholder="Enter the teacher's name">
+                
+                <label for="current-attainment">Current Attainment/Grades:</label>
+                <textarea name="current-attainment[]" rows="3" placeholder="Enter the current attainment/grades" required></textarea>
+                
+                <label for="exam-board">Exam Board (if applicable):</label>
+                <input type="text" name="exam-board[]" placeholder="Enter the exam board (e.g., AQA, Edexcel)">
+                
+                <label for="tutoring-goals">Tutoring Goals:</label>
+                <textarea name="tutoring-goals[]" rows="3" placeholder="Enter the tutoring goals" required></textarea>
+            </div>
+        </div>
+        <button type="button" class="add-subject-btn" onclick="addSubject()">Add Another Subject</button>
+
+        <label for="learning-style">Preferred Learning Style: <span class="help-icon" onclick="toggleHelpBox('learning-style-help')">(?)</span></label>
+        <textarea id="learning-style" name="learning-style" rows="3" placeholder="Describe the student's preferred learning style"></textarea>
+        <div id="learning-style-help" class="help-box">
+            <p>Consider asking:</p>
+            <ul>
+                <li>Do you prefer visual aids, like diagrams and videos?</li>
+                <li>Do you learn better through hands-on activities and practice?</li>
+                <li>Do you like reading and writing notes?</li>
+                <li>Do you prefer listening to explanations or audio materials?</li>
+                <li>Do you benefit from group discussions or individual study?</li>
+                <li>Do you find it easier to understand concepts through examples?</li>
+                <li>Do you like using flashcards or other memory aids?</li>
+                <li>Do you prefer structured lessons or more flexible learning?</li>
+                <li>Do you find it helpful to relate concepts to real-life situations?</li>
+                <li>Do you have any specific learning techniques that work best for you?</li>
+            </ul>
+            <button class="close-btn" onclick="toggleHelpBox('learning-style-help')">Close</button>
+        </div>
+
+        <label for="additional-support">Additional Support Needed (e.g., SEN, EAL): <span class="help-icon" onclick="toggleHelpBox('additional-support-help')">(?)</span></label>
+        <textarea id="additional-support" name="additional-support" rows="3" placeholder="Describe any additional support needed"></textarea>
+        <div id="additional-support-help" class="help-box">
+            <p>Consider asking:</p>
+            <ul>
+                <li>Does the student have any special educational needs (SEN)?</li>
+                <li>Does the student require English as an Additional Language (EAL) support?</li>
+                <li>Are there any specific accommodations the student needs?</li>
+                <li>Does the student have an Individual Education Plan (IEP)?</li>
+                <li>Does the student need help with organisation or time management?</li>
+                <li>Are there any sensory sensitivities to consider?</li>
+                <li>Does the student need support with social skills?</li>
+                <li>Does the student require assistive technology?</li>
+                <li>Are there any medical conditions that affect learning?</li>
+                <li>Does the student benefit from extra breaks or movement during lessons?</li>
+            </ul>
+            <button class="close-btn" onclick="toggleHelpBox('additional-support-help')">Close</button>
+        </div>
+
+        <label for="preferred-schedule">Preferred Tutoring Schedule: <span class="help-icon" onclick="toggleHelpBox('preferred-schedule-help')">(?)</span></label>
+        <textarea id="preferred-schedule" name="preferred-schedule" rows="3" placeholder="Enter the preferred tutoring schedule"></textarea>
+        <div id="preferred-schedule-help" class="help-box">
+            <p>Consider asking:</p>
+            <ul>
+                <li>What days and times work best for tutoring sessions?</li>
+                <li>How many sessions per week are preferred?</li>
+                <li>Are there any upcoming holidays or events to consider?</li>
+                <li>What time of day does the student learn best?</li>
+                <li>Are there any extracurricular activities to work around?</li>
+                <li>Does the student need a flexible schedule?</li>
+                <li>Are there any preferred session lengths (e.g., 1 hour, 1.5 hours)?</li>
+                <li>Would weekend sessions be preferable?</li>
+                <li>Is there a preference for morning or afternoon sessions?</li>
+                <li>Does the student need breaks during longer sessions?</li>
+            </ul>
+            <button class="close-btn" onclick="toggleHelpBox('preferred-schedule-help')">Close</button>
+        </div>
+
+        <label for="student-interests">Student's Interests and Hobbies: <span class="help-icon" onclick="toggleHelpBox('student-interests-help')">(?)</span></label>
+        <textarea id="student-interests" name="student-interests" rows="3" placeholder="Describe the student's interests and hobbies"></textarea>
+        <div id="student-interests-help" class="help-box">
+            <p>Consider asking:</p>
+            <ul>
+                <li>What are the student's favourite subjects or topics?</li>
+                <li>What activities or sports does the student enjoy?</li>
+                <li>Does the student have any hobbies or extracurricular interests?</li>
+                <li>What are the student's favourite books or movies?</li>
+                <li>Does the student enjoy music or play any instruments?</li>
+                <li>Does the student like to draw, paint, or engage in other creative activities?</li>
+                <li>What games or apps does the student like to use?</li>
+                <li>Does the student have any particular areas of curiosity or passion?</li>
+                <li>Are there any clubs or groups the student is part of?</li>
+                <li>Does the student have any goals related to their interests and hobbies?</li>
+            </ul>
+            <button class="close-btn" onclick="toggleHelpBox('student-interests-help')">Close</button>
+        </div>
+
+        <label for="extra-notes">Extra Notes: <span class="help-icon" onclick="toggleHelpBox('extra-notes-help')">(?)</span></label>
+        <textarea id="extra-notes" name="extra-notes" rows="5" placeholder="Enter any additional notes or information"></textarea>
+        <div id="extra-notes-help" class="help-box">
+            <p>Consider asking:</p>
+            <ul>
+                <li>Is there any other information that might be helpful?</li>
+                <li>Are there any specific challenges or concerns to address?</li>
+                <li>What are the overall goals for tutoring?</li>
+                <li>Are there any particular areas of strength or weakness?</li>
+                <li>Does the student have any upcoming assessments or exams?</li>
+                <li>Are there any learning strategies that have worked well in the past?</li>
+                <li>Does the student have any particular dislikes or aversions in learning?</li>
+                <li>Are there any behavioural concerns to be aware of?</li>
+                <li>What motivates the student to learn?</li>
+                <li>Are there any family or home circumstances that might affect learning?</li>
+            </ul>
+            <button class="close-btn" onclick="toggleHelpBox('extra-notes-help')">Close</button>
+        </div>
+
         <button type="submit">Submit Notes</button>
     </form>
     <script>
+        function addSubject() {
+            var subjectGroup = document.createElement('div');
+            subjectGroup.className = 'subject-group';
+
+            subjectGroup.innerHTML = `
+                <label for="subject">Subject:</label>
+                <input type="text" name="subject[]" placeholder="Enter the subject (e.g., Maths, Science)" required>
+                
+                <label for="teacher-name">Teacher's Name:</label>
+                <input type="text" name="teacher-name[]" placeholder="Enter the teacher's name">
+                
+                <label for="current-attainment">Current Attainment/Grades:</label>
+                <textarea name="current-attainment[]" rows="3" placeholder="Enter the current attainment/grades" required></textarea>
+                
+                <label for="exam-board">Exam Board (if applicable):</label>
+                <input type="text" name="exam-board[]" placeholder="Enter the exam board (e.g., AQA, Edexcel)">
+                
+                <label for="tutoring-goals">Tutoring Goals:</label>
+                <textarea name="tutoring-goals[]" rows="3" placeholder="Enter the tutoring goals" required></textarea>
+            `;
+
+            document.getElementById('subjects-container').appendChild(subjectGroup);
+        }
+
+        function toggleHelpBox(id) {
+            var helpBox = document.getElementById(id);
+            helpBox.style.display = helpBox.style.display === 'none' ? 'block' : 'none';
+        }
+
         document.getElementById('introductory-form').addEventListener('submit', function(event) {
             event.preventDefault();
 
