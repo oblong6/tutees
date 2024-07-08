@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.7] - 2024-07-08
+## [1.8] - 2024-07-08
 ### Fixed
 - Ensured the Inducted and Processed check boxes on history page are directly editable and requires are handled to update fields.
 
