@@ -297,6 +297,8 @@ function tnp_save_form_data() {
         )
     );
 
+
+
 function tnp_update_note_field() {
     global $wpdb;
 
@@ -315,14 +317,12 @@ function tnp_update_note_field() {
         );
 
         if ($updated !== false) {
-            error_log("Updated note_id: $note_id, field: $field, value: $value"); // Add logging
             wp_send_json_success();
         } else {
-            error_log("Failed to update note_id: $note_id, field: $field, value: $value"); // Add logging
-            wp_send_json_error();
+            wp_send_json_error(array('message' => 'Database update failed'));
         }
     } else {
-        wp_send_json_error();
+        wp_send_json_error(array('message' => 'Invalid field'));
     }
 }
 
