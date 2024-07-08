@@ -29,9 +29,16 @@ function tnp_meeting_notes_page() {
 }
 
 function tnp_meeting_history_page() {
-    global $wpdb;
-    $notes = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}tnp_notes");
+    echo do_shortcode('[tnp_meeting_history]');
+}
 
+function tnp_meeting_history_shortcode() {
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'tnp_notes';
+
+    $notes = $wpdb->get_results("SELECT * FROM $table_name");
+
+    ob_start();
     echo '<h1>Meeting History</h1>';
     echo '<table class="wp-list-table widefat fixed striped">';
     echo '<thead><tr><th>ID</th><th>Parent Name</th><th>Student Name</th><th>Inducted</th><th>Processed</th></tr></thead>';
@@ -49,5 +56,9 @@ function tnp_meeting_history_page() {
 
     echo '</tbody>';
     echo '</table>';
+
+    return ob_get_clean();
 }
+
+add_shortcode('tnp_meeting_history', 'tnp_meeting_history_shortcode');
 ?>
