@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Tutor Notes Plugin
  * Description: A plugin to store and display introductory session notes for tutees.
- * Version: 1.1
+ * Version: 1.2
  * Author: Liam Jordan - www.liamjordan.co.uk
  */
 
@@ -56,6 +56,8 @@ function tnp_create_tables() {
 
     require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
     dbDelta($sql);
+
+    error_log("Database tables created or checked: " . $sql);
 }
 
 // Hook the function to plugin activation
