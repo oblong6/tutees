@@ -1,4 +1,7 @@
 <?php
+// admin-pages.php
+
+// Register admin pages
 function tnp_register_admin_pages() {
     add_menu_page(
         'Meeting Notes',
@@ -9,7 +12,7 @@ function tnp_register_admin_pages() {
         'dashicons-welcome-learn-more',
         6
     );
-
+    
     add_submenu_page(
         'tnp_meeting_notes',
         'Meeting History',
@@ -18,9 +21,9 @@ function tnp_register_admin_pages() {
         'tnp_meeting_history',
         'tnp_meeting_history_page'
     );
-
+    
     add_submenu_page(
-        null, // This makes the page a hidden submenu
+        null,
         'Student Details',
         'Student Details',
         'manage_options',
@@ -28,59 +31,69 @@ function tnp_register_admin_pages() {
         'tnp_student_details_page'
     );
 }
-
 add_action('admin_menu', 'tnp_register_admin_pages');
 
+// Meeting notes page callback
 function tnp_meeting_notes_page() {
-    echo '<h1>Meeting Notes</h1>';
+    echo '<h2>Meeting Notes</h2>';
+    // Your form or content for meeting notes page
 }
 
+// Meeting history page callback
 function tnp_meeting_history_page() {
+    echo '<h2>Meeting History</h2>';
     echo do_shortcode('[tnp_meeting_history]');
 }
 
+// Student details page callback
 function tnp_student_details_page() {
     global $wpdb;
+    
     $student_id = intval($_GET['student_id']);
     $table_name = $wpdb->prefix . 'tnp_notes';
     $subject_table_name = $wpdb->prefix . 'tnp_subjects';
-
+    
     $student = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_name WHERE id = %d", $student_id));
     $subjects = $wpdb->get_results($wpdb->prepare("SELECT * FROM $subject_table_name WHERE note_id = %d", $student_id));
-
+    
     if (!$student) {
-        echo '<h1>Student Not Found</h1>';
+        echo '<h2>Student Not Found</h2>';
         return;
     }
-
-    echo '<h1>Student Details</h1>';
-    echo '<p><strong>Parent Name:</strong> ' . esc_html($student->parent_name) . '</p>';
-    echo '<p><strong>Student Name:</strong> ' . esc_html($student->student_name) . '</p>';
-    echo '<p><strong>Preferred Name:</strong> ' . esc_html($student->preferred_name) . '</p>';
-    echo '<p><strong>Student Age:</strong> ' . esc_html($student->student_age) . '</p>';
-    echo '<p><strong>Student Gender:</strong> ' . esc_html($student->student_gender) . '</p>';
-    echo '<p><strong>Previous Tutoring:</strong> ' . esc_html($student->previous_tutoring) . '</p>';
-    echo '<p><strong>Contact Email:</strong> ' . esc_html($student->contact_email) . '</p>';
-    echo '<p><strong>Contact Phone:</strong> ' . esc_html($student->contact_phone) . '</p>';
-    echo '<p><strong>Address:</strong> ' . esc_html($student->address) . '</p>';
-    echo '<p><strong>Level of Education:</strong> ' . esc_html($student->level) . '</p>';
-    echo '<p><strong>School Name:</strong> ' . esc_html($student->school_name) . '</p>';
-    echo '<p><strong>Year Group:</strong> ' . esc_html($student->year_group) . '</p>';
-    echo '<p><strong>Learning Style:</strong> ' . esc_html($student->learning_style) . '</p>';
-    echo '<p><strong>Additional Support:</strong> ' . esc_html($student->additional_support) . '</p>';
-    echo '<p><strong>Preferred Schedule:</strong> ' . esc_html($student->preferred_schedule) . '</p>';
-    echo '<p><strong>Student Interests:</strong> ' . esc_html($student->student_interests) . '</p>';
-    echo '<p><strong>Extra Notes:</strong> ' . esc_html($student->extra_notes) . '</p>';
-    echo '<h2>Subjects</h2>';
-
+    
+    echo '<h2>Student Details</h2>';
+    
+    // Output student details
+    echo '<p>Parent Name: ' . esc_html($student->parent_name) . '</p>';
+    echo '<p>Student Name: ' . esc_html($student->student_name) . '</p>';
+    echo '<p>Preferred Name: ' . esc_html($student->preferred_name) . '</p>';
+    echo '<p>Student Age: ' . esc_html($student->student_age) . '</p>';
+    echo '<p>Student Gender: ' . esc_html($student->student_gender) . '</p>';
+    echo '<p>Previous Tutoring: ' . esc_html($student->previous_tutoring) . '</p>';
+    echo '<p>Contact Email: ' . esc_html($student->contact_email) . '</p>';
+    echo '<p>Contact Phone: ' . esc_html($student->contact_phone) . '</p>';
+    echo '<p>Address: ' . esc_html($student->address) . '</p>';
+    echo '<p>Level of Education: ' . esc_html($student->level) . '</p>';
+    echo '<p>School Name: ' . esc_html($student->school_name) . '</p>';
+    echo '<p>Year Group: ' . esc_html($student->year_group) . '</p>';
+    echo '<p>Learning Style: ' . esc_html($student->learning_style) . '</p>';
+    echo '<p>Additional Support: ' . esc_html($student->additional_support) . '</p>';
+    echo '<p>Preferred Schedule: ' . esc_html($student->preferred_schedule) . '</p>';
+    echo '<p>Student Interests: ' . esc_html($student->student_interests) . '</p>';
+    echo '<p>Extra Notes: ' . esc_html($student->extra_notes) . '</p>';
+    
+    // Output subjects
+    echo '<h3>Subjects</h3>';
     if ($subjects) {
         echo '<ul>';
         foreach ($subjects as $subject) {
-            echo '<li><strong>Subject:</strong> ' . esc_html($subject->subject) . '<br>';
-            echo '<strong>Teacher Name:</strong> ' . esc_html($subject->teacher_name) . '<br>';
-            echo '<strong>Current Attainment:</strong> ' . esc_html($subject->current_attainment) . '<br>';
-            echo '<strong>Exam Board:</strong> ' . esc_html($subject->exam_board) . '<br>';
-            echo '<strong>Tutoring Goals:</strong> ' . esc_html($subject->tutoring_goals) . '</li>';
+            echo '<li>';
+            echo '<p>Subject: ' . esc_html($subject->subject) . '</p>';
+            echo '<p>Teacher Name: ' . esc_html($subject->teacher_name) . '</p>';
+            echo '<p>Current Attainment: ' . esc_html($subject->current_attainment) . '</p>';
+            echo '<p>Exam Board: ' . esc_html($subject->exam_board) . '</p>';
+            echo '<p>Tutoring Goals: ' . esc_html($subject->tutoring_goals) . '</p>';
+            echo '</li>';
         }
         echo '</ul>';
     } else {
@@ -88,15 +101,14 @@ function tnp_student_details_page() {
     }
 }
 
+// Shortcode for meeting history
 function tnp_meeting_history_shortcode() {
     global $wpdb;
     $table_name = $wpdb->prefix . 'tnp_notes';
-
     $notes = $wpdb->get_results("SELECT * FROM $table_name");
-
+    
     ob_start();
     ?>
-    <h1>Meeting History</h1>
     <table class="wp-list-table widefat fixed striped">
         <thead>
             <tr>
@@ -107,60 +119,74 @@ function tnp_meeting_history_shortcode() {
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($notes as $note): ?>
+            <?php foreach ($notes as $note) : ?>
                 <tr>
-                    <td><?php echo esc_html($note->student_name); ?></td>
+                    <td><a href="<?php echo admin_url('admin.php?page=tnp_student_details&student_id=' . $note->id); ?>"><?php echo esc_html($note->student_name); ?></a></td>
                     <td><?php echo esc_html($note->parent_name); ?></td>
-                    <td><input type="checkbox" class="inducted-checkbox" data-id="<?php echo esc_attr($note->id); ?>" <?php checked($note->inducted, 1); ?>></td>
-                    <td><input type="checkbox" class="processed-checkbox" data-id="<?php echo esc_attr($note->id); ?>" <?php checked($note->processed, 1); ?>></td>
+                    <td><input type="checkbox" class="inducted-checkbox" data-student-id="<?php echo $note->id; ?>" <?php echo $note->inducted ? 'checked' : ''; ?>></td>
+                    <td><input type="checkbox" class="processed-checkbox" data-student-id="<?php echo $note->id; ?>" <?php echo $note->processed ? 'checked' : ''; ?>></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
     </table>
-    <script type="text/javascript">
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.inducted-checkbox').forEach(function(checkbox) {
-            checkbox.addEventListener('change', function() {
-                var noteId = this.dataset.id;
-                var inducted = this.checked ? 1 : 0;
-                updateNoteField(noteId, 'inducted', inducted);
-            });
-        });
-
-        document.querySelectorAll('.processed-checkbox').forEach(function(checkbox) {
-            checkbox.addEventListener('change', function() {
-                var noteId = this.dataset.id;
-                var processed = this.checked ? 1 : 0;
-                updateNoteField(noteId, 'processed', processed);
+    <script>
+    jQuery(document).ready(function($) {
+        $('.inducted-checkbox, .processed-checkbox').change(function() {
+            var studentId = $(this).data('student-id');
+            var checkboxType = $(this).hasClass('inducted-checkbox') ? 'inducted' : 'processed';
+            var isChecked = $(this).prop('checked') ? 1 : 0;
+            
+            $.ajax({
+                url: ajaxurl,
+                type: 'POST',
+                data: {
+                    action: 'update_checkbox_status',
+                    student_id: studentId,
+                    checkbox_type: checkboxType,
+                    checked: isChecked,
+                    security: '<?php echo wp_create_nonce("update-checkbox-status"); ?>'
+                },
+                success: function(response) {
+                    console.log('Checkbox updated successfully');
+                },
+                error: function(error) {
+                    console.error('Error updating checkbox');
+                }
             });
         });
     });
-
-    function updateNoteField(noteId, field, value) {
-        var data = new FormData();
-        data.append('action', 'update_note_field');
-        data.append('note_id', noteId);
-        data.append('field', field);
-        data.append('value', value);
-
-        fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
-            method: 'POST',
-            body: data
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                console.log('Field updated successfully.');
-            } else {
-                console.error('Error updating field.');
-            }
-        })
-        .catch(error => console.error('Error:', error));
-    }
-</script>
-
+    </script>
     <?php
     return ob_get_clean();
 }
 add_shortcode('tnp_meeting_history', 'tnp_meeting_history_shortcode');
 
+// AJAX handler to update checkbox status
+add_action('wp_ajax_update_checkbox_status', 'tnp_update_checkbox_status');
+function tnp_update_checkbox_status() {
+    check_ajax_referer('update-checkbox-status', 'security');
+    
+    if (!current_user_can('manage_options')) {
+        wp_send_json_error('Permission denied');
+    }
+    
+    $studentId = intval($_POST['student_id']);
+    $checkboxType = sanitize_text_field($_POST['checkbox_type']);
+    $isChecked = intval($_POST['checked']);
+    
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'tnp_notes';
+    $result = $wpdb->update(
+        $table_name,
+        array($checkboxType => $isChecked),
+        array('id' => $studentId),
+        array('%d'),
+        array('%d')
+    );
+    
+    if ($result !== false) {
+        wp_send_json_success('Checkbox updated successfully');
+    } else {
+        wp_send_json_error('Error updating checkbox');
+    }
+}
