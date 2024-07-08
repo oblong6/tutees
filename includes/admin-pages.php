@@ -182,6 +182,7 @@ function tnp_meeting_history_shortcode() {
 add_shortcode('tnp_meeting_history', 'tnp_meeting_history_shortcode');
 
 
+
 // AJAX handler to update checkbox status
 add_action('wp_ajax_update_checkbox_status', 'tnp_update_checkbox_status');
 function tnp_update_checkbox_status() {
