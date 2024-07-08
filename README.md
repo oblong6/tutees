@@ -43,7 +43,7 @@ The form fields and functionality can be customized by editing the relevant file
 
 ## Support
 
-For support, please visit [Liam Jordan's website](http://www.liamjordan.co.uk).
+For support, please visit [my wesbite](http://www.liamjordan.co.uk).
 
 ## License
 
