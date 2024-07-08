@@ -78,6 +78,8 @@ function tnp_introductory_form_shortcode() {
         </div>
         <button type="button" class="add-subject-btn" onclick="addSubject()">Add Another Subject</button>
 
+        <div style="clear:both;"></div> <!-- Clear floats -->
+
         <label for="learning-style">Preferred Learning Style: <span class="help-icon" onclick="toggleHelpBox('learning-style-help')">(?)</span></label>
         <textarea id="learning-style" name="learning-style" rows="3" placeholder="Describe the student's preferred learning style"></textarea>
         <div id="learning-style-help" class="help-box">
@@ -94,7 +96,7 @@ function tnp_introductory_form_shortcode() {
                 <li>Do you find it helpful to relate concepts to real-life situations?</li>
                 <li>Do you have any specific learning techniques that work best for you?</li>
             </ul>
-            <button class="close-btn" onclick="toggleHelpBox('learning-style-help')">Close</button>
+            <button type="button" class="close-btn" onclick="toggleHelpBox('learning-style-help')">Close</button>
         </div>
 
         <label for="additional-support">Additional Support Needed (e.g., SEN, EAL): <span class="help-icon" onclick="toggleHelpBox('additional-support-help')">(?)</span></label>
@@ -113,7 +115,7 @@ function tnp_introductory_form_shortcode() {
                 <li>Are there any medical conditions that affect learning?</li>
                 <li>Does the student benefit from extra breaks or movement during lessons?</li>
             </ul>
-            <button class="close-btn" onclick="toggleHelpBox('additional-support-help')">Close</button>
+            <button type="button" class="close-btn" onclick="toggleHelpBox('additional-support-help')">Close</button>
         </div>
 
         <label for="preferred-schedule">Preferred Tutoring Schedule: <span class="help-icon" onclick="toggleHelpBox('preferred-schedule-help')">(?)</span></label>
@@ -132,7 +134,7 @@ function tnp_introductory_form_shortcode() {
                 <li>Is there a preference for morning or afternoon sessions?</li>
                 <li>Does the student need breaks during longer sessions?</li>
             </ul>
-            <button class="close-btn" onclick="toggleHelpBox('preferred-schedule-help')">Close</button>
+            <button type="button" class="close-btn" onclick="toggleHelpBox('preferred-schedule-help')">Close</button>
         </div>
 
         <label for="student-interests">Student's Interests and Hobbies: <span class="help-icon" onclick="toggleHelpBox('student-interests-help')">(?)</span></label>
@@ -151,7 +153,7 @@ function tnp_introductory_form_shortcode() {
                 <li>Are there any clubs or groups the student is part of?</li>
                 <li>Does the student have any goals related to their interests and hobbies?</li>
             </ul>
-            <button class="close-btn" onclick="toggleHelpBox('student-interests-help')">Close</button>
+            <button type="button" class="close-btn" onclick="toggleHelpBox('student-interests-help')">Close</button>
         </div>
 
         <label for="extra-notes">Extra Notes: <span class="help-icon" onclick="toggleHelpBox('extra-notes-help')">(?)</span></label>
@@ -170,11 +172,33 @@ function tnp_introductory_form_shortcode() {
                 <li>What motivates the student to learn?</li>
                 <li>Are there any family or home circumstances that might affect learning?</li>
             </ul>
-            <button class="close-btn" onclick="toggleHelpBox('extra-notes-help')">Close</button>
+            <button type="button" class="close-btn" onclick="toggleHelpBox('extra-notes-help')">Close</button>
         </div>
 
         <button type="submit">Submit Notes</button>
     </form>
+    <style>
+        .help-box {
+            display: none;
+            position: absolute;
+            background: #f4f4f4;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+            z-index: 100;
+            width: 300px;
+        }
+        .close-btn {
+            background-color: #060097;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+    </style>
     <script>
         function addSubject() {
             var subjectGroup = document.createElement('div');
