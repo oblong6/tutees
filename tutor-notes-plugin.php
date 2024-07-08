@@ -2,8 +2,8 @@
 /**
  * Plugin Name: Tutor Notes Plugin
  * Description: A plugin to store and display introductory session notes for tutees.
- * Version: 1.0
- * Author: Your Name
+ * Version: 1.1
+ * Author: Liam Jordan - www.liamjordan.co.uk
  */
 
 if (!defined('ABSPATH')) {
