@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Tutor Notes Plugin
  * Description: A plugin to store and display introductory session notes for tutees.
- * Version: 1.2
+ * Version: 1.3
  * Author: Liam Jordan - www.liamjordan.co.uk
  */
 
@@ -56,8 +56,6 @@ function tnp_create_tables() {
 
     require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
     dbDelta($sql);
-
-    error_log("Database tables created or checked: " . $sql);
 }
 
 // Hook the function to plugin activation
@@ -67,6 +65,7 @@ register_activation_hook(__FILE__, 'tnp_create_tables');
 include_once plugin_dir_path(__FILE__) . 'includes/form-handler.php';
 include_once plugin_dir_path(__FILE__) . 'includes/admin-pages.php';
 
-// Shortcodes for forms.
+// Shortcodes for forms and history page.
 add_shortcode('tnp_introductory_form', 'tnp_introductory_form_shortcode');
+add_shortcode('tnp_meeting_history', 'tnp_meeting_history_shortcode');
 ?>
