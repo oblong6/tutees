@@ -105,10 +105,12 @@ function tnp_student_details_page() {
 function tnp_meeting_history_shortcode() {
     global $wpdb;
     $table_name = $wpdb->prefix . 'tnp_notes';
+
     $notes = $wpdb->get_results("SELECT * FROM $table_name");
-    
+
     ob_start();
     ?>
+    <h1>Meeting History</h1>
     <table class="wp-list-table widefat fixed striped">
         <thead>
             <tr>
@@ -119,47 +121,66 @@ function tnp_meeting_history_shortcode() {
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($notes as $note) : ?>
+            <?php foreach ($notes as $note): ?>
                 <tr>
-                    <td><a href="<?php echo admin_url('admin.php?page=tnp_student_details&student_id=' . $note->id); ?>"><?php echo esc_html($note->student_name); ?></a></td>
+                    <td><a href="<?php echo esc_url(admin_url('admin.php?page=tnp_student_details&student_id=' . $note->id)); ?>"><?php echo esc_html($note->student_name); ?></a></td>
                     <td><?php echo esc_html($note->parent_name); ?></td>
-                    <td><input type="checkbox" class="inducted-checkbox" data-student-id="<?php echo $note->id; ?>" <?php echo $note->inducted ? 'checked' : ''; ?>></td>
-                    <td><input type="checkbox" class="processed-checkbox" data-student-id="<?php echo $note->id; ?>" <?php echo $note->processed ? 'checked' : ''; ?>></td>
+                    <td><input type="checkbox" class="inducted-checkbox" data-id="<?php echo esc_attr($note->id); ?>" <?php checked($note->inducted, 1); ?>></td>
+                    <td><input type="checkbox" class="processed-checkbox" data-id="<?php echo esc_attr($note->id); ?>" <?php checked($note->processed, 1); ?>></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
     </table>
-    <script>
-    jQuery(document).ready(function($) {
-        $('.inducted-checkbox, .processed-checkbox').change(function() {
-            var studentId = $(this).data('student-id');
-            var checkboxType = $(this).hasClass('inducted-checkbox') ? 'inducted' : 'processed';
-            var isChecked = $(this).prop('checked') ? 1 : 0;
-            
-            $.ajax({
-                url: ajaxurl,
-                type: 'POST',
-                data: {
-                    action: 'update_checkbox_status',
-                    student_id: studentId,
-                    checkbox_type: checkboxType,
-                    checked: isChecked,
-                    security: '<?php echo wp_create_nonce("update-checkbox-status"); ?>'
-                },
-                success: function(response) {
-                    console.log('Checkbox updated successfully');
-                },
-                error: function(error) {
-                    console.error('Error updating checkbox');
-                }
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.inducted-checkbox').forEach(function(checkbox) {
+                checkbox.addEventListener('change', function() {
+                    var noteId = this.dataset.id;
+                    var inducted = this.checked ? 1 : 0;
+                    updateNoteField(noteId, 'inducted', inducted);
+                });
+            });
+
+            document.querySelectorAll('.processed-checkbox').forEach(function(checkbox) {
+                checkbox.addEventListener('change', function() {
+                    var noteId = this.dataset.id;
+                    var processed = this.checked ? 1 : 0;
+                    updateNoteField(noteId, 'processed', processed);
+                });
             });
         });
-    });
+
+        function updateNoteField(noteId, field, value) {
+            var data = {
+                'action': 'update_note_field',
+                'note_id': noteId,
+                'field': field,
+                'value': value,
+            };
+
+            fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
+                method: 'POST',
+                body: new URLSearchParams(data),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log('Field updated successfully.');
+                } else {
+                    console.error('Error updating field.');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
     </script>
     <?php
     return ob_get_clean();
 }
 add_shortcode('tnp_meeting_history', 'tnp_meeting_history_shortcode');
+
 
 // AJAX handler to update checkbox status
 add_action('wp_ajax_update_checkbox_status', 'tnp_update_checkbox_status');
