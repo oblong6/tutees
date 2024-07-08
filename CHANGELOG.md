@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.9] - 2024-07-08
+### Fixed
+- Fixed issue around changing of Processed and Inducted checkboxes, as well as inability access notes history.
+
 ## [1.8] - 2024-07-08
 ### Fixed
 - Ensured the Inducted and Processed check boxes on history page are directly editable and requires are handled to update fields.
