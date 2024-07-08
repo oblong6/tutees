@@ -1,3 +1,4 @@
+<?php
 function tnp_register_admin_pages() {
     add_menu_page(
         'Meeting Notes',
