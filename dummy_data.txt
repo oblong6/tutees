@@ -1,0 +1,44 @@
+# Dummy Data for Tutor Notes Plugin
+
+## Description
+
+This SQL script inserts 15 dummy students into the `wp_tnp_notes` and `wp_tnp_subjects` tables. The data is designed to look realistic, with varied names, ages, genders, and academic details. The majority of the students are at Keystage 2 and 3 levels, with one A-Level and one Undergraduate student included.
+
+## Instructions
+
+1. **Download the Plugin**:
+   Ensure you have the Tutor Notes Plugin installed and activated on your WordPress site.
+
+2. **Backup Your Database**:
+   Before running the SQL script, it is highly recommended to backup your current database to prevent any loss of data.
+
+3. **Access Your Database**:
+   - You can use tools like phpMyAdmin, Adminer, or any MySQL client to access your WordPress database.
+
+4. **Run the SQL Script**:
+   - Copy the entire SQL script below.
+   - Paste the script into your database management tool's query editor.
+   - Execute the script to insert the dummy data into your database.
+
+## SQL Script
+
+```sql
+-- Insert dummy data into wp_tnp_notes
+INSERT INTO `wp_tnp_notes` 
+(parent_name, student_name, preferred_name, student_age, student_gender, previous_tutoring, contact_email, contact_phone, address, level, school_name, year_group, learning_style, additional_support, preferred_schedule, student_interests, extra_notes, inducted, processed) 
+VALUES
+('Emma Johnson', 'Liam Johnson', 'Liam', 7, 'male', 'No', 'emma.johnson@mail.com', '555-0011', '123 Oak St, Springfield', 'keystage2', 'Springfield Elementary', 'Year 2', 'Visual', 'None', 'Weekdays, 4-5 PM', 'Soccer, Reading', 'Very enthusiastic about learning.', 0, 0),
+('Oliver Smith', 'Sophia Smith', 'Sophia', 9, 'female', 'Yes', 'oliver.smith@mail.com', '555-0022', '456 Pine St, Springfield', 'keystage2', 'Springfield Elementary', 'Year 4', 'Auditory', 'None', 'Weekends, 10-11 AM', 'Drawing, Singing', 'Needs help with math.', 0, 0),
+('Ava Brown', 'Noah Brown', 'Noah', 10, 'male', 'No', 'ava.brown@mail.com', '555-0033', '789 Maple St, Springfield', 'keystage2', 'Springfield Elementary', 'Year 5', 'Kinesthetic', 'None', 'Weekdays, 3-4 PM', 'Science, Building models', 'Very curious.', 0, 0),
+('James Wilson', 'Olivia Wilson', 'Olivia', 8, 'female', 'Yes', 'james.wilson@mail.com', '555-0044', '321 Cedar St, Springfield', 'keystage2', 'Springfield Elementary', 'Year 3', 'Visual', 'None', 'Mondays and Wednesdays, 5-6 PM', 'Dance, Painting', 'Enjoys creative activities.', 0, 0),
+('Isabella Martinez', 'Ethan Martinez', 'Ethan', 12, 'male', 'No', 'isabella.martinez@mail.com', '555-0055', '654 Birch St, Springfield', 'keystage3', 'Springfield Middle School', 'Year 7', 'Auditory', 'Dyslexia', 'Weekdays, 4-5 PM', 'Reading, Music', 'Needs support with reading.', 0, 0),
+('William Anderson', 'Mia Anderson', 'Mia', 11, 'female', 'No', 'william.anderson@mail.com', '555-0066', '987 Walnut St, Springfield', 'keystage3', 'Springfield Middle School', 'Year 6', 'Kinesthetic', 'None', 'Weekends, 1-2 PM', 'Sports, Cooking', 'Active and hands-on learner.', 0, 0),
+('Sophia Thomas', 'Aiden Thomas', 'Aiden', 13, 'male', 'Yes', 'sophia.thomas@mail.com', '555-0077', '432 Elm St, Springfield', 'keystage3', 'Springfield Middle School', 'Year 8', 'Visual', 'None', 'Tuesdays and Thursdays, 4-5 PM', 'Photography, Skateboarding', 'Very visual learner.', 0, 0),
+('Lucas White', 'Ava White', 'Ava', 14, 'female', 'No', 'lucas.white@mail.com', '555-0088', '765 Ash St, Springfield', 'keystage3', 'Springfield Middle School', 'Year 9', 'Auditory', 'None', 'Weekdays, 5-6 PM', 'Debate, Writing', 'Strong communication skills.', 0, 0),
+('Mia Harris', 'Liam Harris', 'Liam', 7, 'male', 'No', 'mia.harris@mail.com', '555-0099', '876 Fir St, Springfield', 'keystage2', 'Springfield Elementary', 'Year 2', 'Kinesthetic', 'None', 'Weekends, 10-11 AM', 'Legos, Running', 'Very active and hands-on.', 0, 0),
+('Ethan Martin', 'Ella Martin', 'Ella', 10, 'female', 'Yes', 'ethan.martin@mail.com', '555-0100', '543 Spruce St, Springfield', 'keystage2', 'Springfield Elementary', 'Year 5', 'Visual', 'None', 'Weekdays, 3-4 PM', 'Drawing, Reading', 'Loves visual learning aids.', 0, 0),
+('Charlotte Lee', 'Mason Lee', 'Mason', 15, 'male', 'No', 'charlotte.lee@mail.com', '555-0111', '210 Pine St, Springfield', 'keystage4', 'Springfield High School', 'Year 10', 'Kinesthetic', 'None', 'Weekends, 2-3 PM', 'Sports, Mechanics', 'Very hands-on learner.', 0, 0),
+('Amelia Perez', 'Isabella Perez', 'Isabella', 16, 'female', 'Yes', 'amelia.perez@mail.com', '555-0122', '333 Cedar St, Springfield', 'alevel', 'Springfield High School', 'Year 12', 'Auditory', 'None', 'Weekdays, 4-5 PM', 'Music, Debate', 'Strong verbal skills.', 0, 0),
+('Daniel Brown', 'Lucas Brown', 'Lucas', 17, 'male', 'No', 'daniel.brown@mail.com', '555-0133', '444 Birch St, Springfield', 'alevel', 'Springfield High School', 'Year 13', 'Visual', 'None', 'Mondays and Wednesdays, 5-6 PM', 'Coding, Art', 'Loves visual projects.', 0, 0),
+('Elizabeth Davis', 'Olivia Davis', 'Olivia', 18, 'female', 'No', 'elizabeth.davis@mail.com', '555-0144', '555 Walnut St, Springfield', 'undergraduate', 'Springfield University', 'Year 1', 'Kinesthetic', 'None', 'Weekends, 1-2 PM', 'Research, Labs', 'Very practical learner.', 0, 0),
+('Henry Wilson', 'Ava Wilson', 'Ava', 8, 'female', 'Yes', 'henry.wilson@mail.com', '555-0155', '666 Elm St, Springfield', 'keystage2', 'Springfield Elementary
