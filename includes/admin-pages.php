@@ -151,26 +151,22 @@ function tnp_meeting_history_shortcode() {
         });
 
         function updateNoteField(noteId, field, value) {
-            var data = {
-                'action': 'update_note_field',
-                'note_id': noteId,
-                'field': field,
-                'value': value,
-            };
+            var data = new FormData();
+            data.append('action', 'update_note_field');
+            data.append('note_id', noteId);
+            data.append('field', field);
+            data.append('value', value);
 
             fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
                 method: 'POST',
-                body: new URLSearchParams(data),
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
+                body: data
             })
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
                     console.log('Field updated successfully.');
                 } else {
-                    console.error('Error updating field.');
+                    console.error('Error updating field:', data.data);
                 }
             })
             .catch(error => console.error('Error:', error));
