@@ -80,7 +80,7 @@ function tnp_introductory_form_shortcode() {
 
         <div style="clear:both;"></div> <!-- Clear floats -->
 
-        <label for="learning-style">Preferred Learning Style: <span class="help-icon" onclick="toggleHelpBox('learning-style-help')">(?)</span></label>
+        <label for="learning-style">Preferred Learning Style: <span class="help-icon" onclick="toggleHelpBox(event, 'learning-style-help')">(?)</span></label>
         <textarea id="learning-style" name="learning-style" rows="3" placeholder="Describe the student's preferred learning style"></textarea>
         <div id="learning-style-help" class="help-box">
             <p>Consider asking:</p>
@@ -96,10 +96,10 @@ function tnp_introductory_form_shortcode() {
                 <li>Do you find it helpful to relate concepts to real-life situations?</li>
                 <li>Do you have any specific learning techniques that work best for you?</li>
             </ul>
-            <button type="button" class="close-btn" onclick="toggleHelpBox('learning-style-help')">Close</button>
+            <button type="button" class="close-btn" onclick="toggleHelpBox(event, 'learning-style-help')">Close</button>
         </div>
 
-        <label for="additional-support">Additional Support Needed (e.g., SEN, EAL): <span class="help-icon" onclick="toggleHelpBox('additional-support-help')">(?)</span></label>
+        <label for="additional-support">Additional Support Needed (e.g., SEN, EAL): <span class="help-icon" onclick="toggleHelpBox(event, 'additional-support-help')">(?)</span></label>
         <textarea id="additional-support" name="additional-support" rows="3" placeholder="Describe any additional support needed"></textarea>
         <div id="additional-support-help" class="help-box">
             <p>Consider asking:</p>
@@ -115,10 +115,10 @@ function tnp_introductory_form_shortcode() {
                 <li>Are there any medical conditions that affect learning?</li>
                 <li>Does the student benefit from extra breaks or movement during lessons?</li>
             </ul>
-            <button type="button" class="close-btn" onclick="toggleHelpBox('additional-support-help')">Close</button>
+            <button type="button" class="close-btn" onclick="toggleHelpBox(event, 'additional-support-help')">Close</button>
         </div>
 
-        <label for="preferred-schedule">Preferred Tutoring Schedule: <span class="help-icon" onclick="toggleHelpBox('preferred-schedule-help')">(?)</span></label>
+        <label for="preferred-schedule">Preferred Tutoring Schedule: <span class="help-icon" onclick="toggleHelpBox(event, 'preferred-schedule-help')">(?)</span></label>
         <textarea id="preferred-schedule" name="preferred-schedule" rows="3" placeholder="Enter the preferred tutoring schedule"></textarea>
         <div id="preferred-schedule-help" class="help-box">
             <p>Consider asking:</p>
@@ -134,10 +134,10 @@ function tnp_introductory_form_shortcode() {
                 <li>Is there a preference for morning or afternoon sessions?</li>
                 <li>Does the student need breaks during longer sessions?</li>
             </ul>
-            <button type="button" class="close-btn" onclick="toggleHelpBox('preferred-schedule-help')">Close</button>
+            <button type="button" class="close-btn" onclick="toggleHelpBox(event, 'preferred-schedule-help')">Close</button>
         </div>
 
-        <label for="student-interests">Student's Interests and Hobbies: <span class="help-icon" onclick="toggleHelpBox('student-interests-help')">(?)</span></label>
+        <label for="student-interests">Student's Interests and Hobbies: <span class="help-icon" onclick="toggleHelpBox(event, 'student-interests-help')">(?)</span></label>
         <textarea id="student-interests" name="student-interests" rows="3" placeholder="Describe the student's interests and hobbies"></textarea>
         <div id="student-interests-help" class="help-box">
             <p>Consider asking:</p>
@@ -153,10 +153,10 @@ function tnp_introductory_form_shortcode() {
                 <li>Are there any clubs or groups the student is part of?</li>
                 <li>Does the student have any goals related to their interests and hobbies?</li>
             </ul>
-            <button type="button" class="close-btn" onclick="toggleHelpBox('student-interests-help')">Close</button>
+            <button type="button" class="close-btn" onclick="toggleHelpBox(event, 'student-interests-help')">Close</button>
         </div>
 
-        <label for="extra-notes">Extra Notes: <span class="help-icon" onclick="toggleHelpBox('extra-notes-help')">(?)</span></label>
+        <label for="extra-notes">Extra Notes: <span class="help-icon" onclick="toggleHelpBox(event, 'extra-notes-help')">(?)</span></label>
         <textarea id="extra-notes" name="extra-notes" rows="5" placeholder="Enter any additional notes or information"></textarea>
         <div id="extra-notes-help" class="help-box">
             <p>Consider asking:</p>
@@ -172,7 +172,7 @@ function tnp_introductory_form_shortcode() {
                 <li>What motivates the student to learn?</li>
                 <li>Are there any family or home circumstances that might affect learning?</li>
             </ul>
-            <button type="button" class="close-btn" onclick="toggleHelpBox('extra-notes-help')">Close</button>
+            <button type="button" class="close-btn" onclick="toggleHelpBox(event, 'extra-notes-help')">Close</button>
         </div>
 
         <button type="submit">Submit Notes</button>
@@ -197,6 +197,11 @@ function tnp_introductory_form_shortcode() {
             border-radius: 5px;
             font-size: 14px;
             margin-top: 10px;
+        }
+        .help-icon {
+            cursor: pointer;
+            color: #060097;
+            margin-left: 5px;
         }
     </style>
     <script>
@@ -224,9 +229,16 @@ function tnp_introductory_form_shortcode() {
             document.getElementById('subjects-container').appendChild(subjectGroup);
         }
 
-        function toggleHelpBox(id) {
+        function toggleHelpBox(event, id) {
             var helpBox = document.getElementById(id);
-            helpBox.style.display = helpBox.style.display === 'none' ? 'block' : 'none';
+            if (helpBox.style.display === 'none') {
+                var rect = event.target.getBoundingClientRect();
+                helpBox.style.top = (rect.top + window.scrollY - helpBox.offsetHeight) + 'px';
+                helpBox.style.left = (rect.left + window.scrollX + 20) + 'px';
+                helpBox.style.display = 'block';
+            } else {
+                helpBox.style.display = 'none';
+            }
         }
 
         document.getElementById('introductory-form').addEventListener('submit', function(event) {
