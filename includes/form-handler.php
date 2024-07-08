@@ -315,8 +315,10 @@ function tnp_update_note_field() {
         );
 
         if ($updated !== false) {
+            error_log("Updated note_id: $note_id, field: $field, value: $value"); // Add logging
             wp_send_json_success();
         } else {
+            error_log("Failed to update note_id: $note_id, field: $field, value: $value"); // Add logging
             wp_send_json_error();
         }
     } else {
@@ -325,6 +327,7 @@ function tnp_update_note_field() {
 }
 
 add_action('wp_ajax_update_note_field', 'tnp_update_note_field');
+
 
 
 
