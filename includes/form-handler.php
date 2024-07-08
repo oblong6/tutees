@@ -297,7 +297,7 @@ function tnp_save_form_data() {
         )
     );
 
-    function tnp_update_note_field() {
+function tnp_update_note_field() {
     global $wpdb;
 
     $note_id = intval($_POST['note_id']);
@@ -306,7 +306,7 @@ function tnp_save_form_data() {
 
     if ($field === 'inducted' || $field === 'processed') {
         $table_name = $wpdb->prefix . 'tnp_notes';
-        $wpdb->update(
+        $updated = $wpdb->update(
             $table_name,
             array($field => $value),
             array('id' => $note_id),
@@ -314,13 +314,18 @@ function tnp_save_form_data() {
             array('%d')
         );
 
-        wp_send_json_success();
+        if ($updated !== false) {
+            wp_send_json_success();
+        } else {
+            wp_send_json_error();
+        }
     } else {
         wp_send_json_error();
     }
 }
 
 add_action('wp_ajax_update_note_field', 'tnp_update_note_field');
+
 
 
     $note_id = $wpdb->insert_id;
