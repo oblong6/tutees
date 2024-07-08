@@ -97,7 +97,7 @@ function tnp_meeting_history_shortcode() {
     ob_start();
     echo '<h1>Meeting History</h1>';
     echo '<table class="wp-list-table widefat fixed striped">';
-    echo '<thead><tr><th>Student Name</th><th>Parent Name</th><th>Inducted</th><th>Processed</th></tr></thead>';
+    echo '<thead><tr><th>Student Name</th><th>Parent Name</th><th>Inducted</th><th>Processed</th></thead>';
     echo '<tbody>';
 
     foreach ($notes as $note) {
